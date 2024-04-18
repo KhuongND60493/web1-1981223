@@ -136,6 +136,10 @@ h1 {
 #news .date{
     background-color: var(--web1-green);
 }
+.news-date{
+    width: 20px;
+    margin-left: 1.25rem;
+}
 /* footer */
 footer{
     background-image: url('../images/bg-footer.gif');

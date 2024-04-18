@@ -25,6 +25,12 @@ https://fontawesome.com/
 - Bootstrap 5
 https://getbootstrap.com/docs/5.2/getting-started/introduction/
 
+
+Tài liệu MBook: https://tinyurl.com/web1-mbook
+Video hướng dẫn thực hành: https://tinyurl.com/web1-project
+Web1 API: https://web1-api.vercel.app/
+Free API: https://reqres.in/ https://jsonplaceholder.typicode.com/
+
 - Màu sắc chính của trang:
 + Hồng: #FA97C2
 + Xanh dương: #2FA0D5
