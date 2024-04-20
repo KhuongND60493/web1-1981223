@@ -87,9 +87,25 @@ async function getTestimonials() {
 async function getList(subUrl, idTemplate, idSection) {
   const res = await fetch(`${BASE_URL}/${subUrl}`);
   const data = await res.json();
+
+  console.log("aaaa", data);
   var source = document.getElementById(idTemplate).innerHTML;
   var template = Handlebars.compile(source);
   var context = { data: data };
+  var html = template(context);
+  document.getElementById(idSection).innerHTML = html;
+}
+
+async function getListBlogs(subUrl, idTemplate, idSection, page = undefined) {
+  const res = await fetch(`${BASE_URL}/${subUrl}`);
+  const data = await res.json();
+  const blogs = data?.data || [];
+
+  const currentPage = page ? parseInt(`${page}`) : 1;
+  var source = document.getElementById(idTemplate).innerHTML;
+  var template = Handlebars.compile(source);
+  var context = { data: blogs, currentPage, pageCount: data?.pageCount || 0 };
+  console.log("aaaaa", context);
   var html = template(context);
   document.getElementById(idSection).innerHTML = html;
 }

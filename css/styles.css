@@ -180,3 +180,9 @@ footer{
    #gallery-categories-section a.active{
     color:  black;
    }
+   /* blog */
+   #blogs-categories li{
+    list-style: none;
+    background: url('../images/marker1.png') 0 0.25rem no-repeat;
+    padding: 0 0 0.75rem 1.5rem;
+   }
