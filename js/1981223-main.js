@@ -1,4 +1,5 @@
-const BASE_URL = "https://web1-api.vercel.app/api";
+const HOST = "https://web1-api.vercel.app";
+const BASE_URL = `${HOST}/api`;
 const api = {
   products: `${BASE_URL}/products`,
   news: `${BASE_URL}/news`,
@@ -6,6 +7,7 @@ const api = {
   visions: `${BASE_URL}/visions`,
   team: `${BASE_URL}/team`,
   testimonials: `${BASE_URL}/testimonials`,
+  login: `${HOST}/users/authenticate`,
 };
 const templates = {
   productListTemplate: "products-template",
@@ -122,4 +124,17 @@ function handleToggleImage(self, imagePath, isHover = true) {
     ? imagePath.replace(".", "-active.")
     : imagePath.replace("-active.", ".");
   self.nextElementSibling.classList.toggle("web1-text-blue");
+}
+
+async function getAuthenticateToken(username, password) {
+  const res = await fetch(api.login, {
+    method: "POST",
+    headers: { "Content-Type": "application/json", Accept: "application/json" },
+    body: JSON.stringify({ username, password }),
+  });
+  const rs = await res.json();
+  if (res.status == 200) {
+    return rs.token;
+  }
+  throw Error(res.message);
 }

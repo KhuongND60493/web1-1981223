@@ -348,11 +348,17 @@
             }
         });
     }
-    function sendEmail(){
-                let resMsg=document.getElementById('message-res');
-                resMsg.innerHTML='OK';
-                resMsg.classList.remove();
-                resMsg.classList.toggle('text-success')
+    async function sendEmail(){
+        let resMsg=document.getElementById('message-res');
+        try {
+            const accessToken=await getAuthenticateToken('test','1c3cr3@m');
+            console.log('aaaaaa',accessToken);    
+             
+        } catch (error) {
+            resMsg.innerHTML=error;
+            resMsg.classList.remove();
+            resMsg.classList.toggle('text-danger')
+        }
     }
     </script>
   </body>
