@@ -105,7 +105,6 @@ async function getListBlogs(subUrl, idTemplate, idSection, page = undefined) {
   var source = document.getElementById(idTemplate).innerHTML;
   var template = Handlebars.compile(source);
   var context = { data: blogs, currentPage, pageCount: data?.pageCount || 0 };
-  console.log("aaaaa", context);
   var html = template(context);
   document.getElementById(idSection).innerHTML = html;
 }

@@ -96,7 +96,7 @@
         <div class="row">
           <div class="col-md-8 col-sm-12">
             <h1 class="py-3">Blogs</h1>
-            <div class="row" id="blog-items"></div>
+            <div class="row" id="blog-content"></div>
           </div>
           <div class="col-md-4 col-sm-12">
             <h1 class="py-3">Categories</h1>
@@ -223,7 +223,7 @@
               onclick="getAllBlogs(undefined,`{{category.id}}`)"
             >{{category.name}}</a>
             {{formatDate date}}
-            <a href="#">Comments ({{comments.length}})</a>
+            <a href="#" onclick="getBlogDetail('{{id}}',true)">Comments ({{comments.length}})</a>
           </p>
           <img
             src="{{thumbpath}}"
@@ -231,7 +231,11 @@
             class="float-start me-3 rounded-4 border"
           />
           <p class="text-black-50">{{summary}} </p>
-          <a href="#" class="btn btn-link readmore ps-0">Read more</a>
+          <a
+            href="#"
+            class="btn btn-link readmore ps-0"
+            onclick="getBlogDetail('{{id}}')"
+          >Read more</a>
         </div>
       {{/each}}
       {{#pagination currentPage pageCount}}
@@ -257,6 +261,51 @@
         </nav>
       {{/pagination}}
     </script>
+    <!-- template blog-detail -->
+    <script id="blog-detail-template" type="text/x-handlebars-template">
+      {{#each data}}
+        <div class="clearfix py-3">
+          <h3>{{name}}</h3>
+          <p class="text-black-50">
+            by
+            {{author}}<a
+              href="#"
+              onclick="getAllBlogs(undefined,`{{category.id}}`)"
+            >{{category.name}}</a>
+            {{formatDate date}}
+            <a href="#" onclick="getBlogDetail('{{id}}')">Comments ({{comments.length}})</a>
+          </p>
+          <img
+            src="{{thumbpath}}"
+            alt="{{name}}"
+            class="float-start me-3 rounded-4 border"
+          />
+          <p class="text-black-50">{{{description}}} </p>
+        </div>
+        <h3>Leave your comments</h3>
+        <h3>Post comment as guest</h3>
+        <div class="row">
+          <div class="col-4">
+            <label for="name" class="form-label">Name (required)</label>
+            <input type="text" class="form-control" />
+          </div>
+        </div>
+        <a name="comments"></a>
+        <div class="bg-dark text-white-50 text-uppercase">
+          comments
+        </div>
+        <div class="py-3">
+          {{#each comments}}
+            <div>
+              <p>{{name}} - {{formatDate date}}</p>
+              <p>{{summary}}</p>
+              <hr />
+            </div>
+          {{/each}}
+        </div>
+      {{/each}}
+    </script>
+
     <!-- boostrap javascript -->
     <script
       src="https://kit.fontawesome.com/048d29bdeb.js"
@@ -296,7 +345,13 @@
           url = `${url}?page=${page}`;
         }
 
-        getListBlogs(url, "blog-item-template", "blog-items", page);
+        getListBlogs(url, "blog-item-template", "blog-content", page);
+      }
+      async function getBlogDetail(id, goToComments = false) {
+        await getList(`blogs/${id}`, "blog-detail-template", "blog-content");
+        if (goToComments) {
+          window.location.href = "#comments";
+        }
       }
     </script>
   </body>
