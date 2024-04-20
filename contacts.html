@@ -211,7 +211,7 @@
               </div>
             </div>
             </div>
-            <div id="message-res" class="text-danger text-center"></div>
+            <div id="message-res" class="text-success"></div>
           </form>
       </section>
     </div>
@@ -341,12 +341,18 @@
             if(response.status == 200){
                 sendEmail()
             }else{
-                document.getElementById('message-res').innerHTML='Error: Cant verify reCaptcha';
+                let resMsg=document.getElementById('message-res');
+                resMsg.innerHTML='Error: Cant verify reCaptcha';
+                resMsg.classList.remove();
+                resMsg.classList.toggle('text-danger')
             }
         });
     }
     function sendEmail(){
-         document.getElementById('message-res').innerHTML='OK';
+                let resMsg=document.getElementById('message-res');
+                resMsg.innerHTML='OK';
+                resMsg.classList.remove();
+                resMsg.classList.toggle('text-success')
     }
     </script>
   </body>
