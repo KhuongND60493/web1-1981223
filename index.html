@@ -105,7 +105,8 @@
         </div>
       </nav>
     </header>
-    <div id="content" style="display: none">
+    <div id="content"></div>
+    <div id="main" style="display: none">
       <!-- banner -->
       <section class="container-fluid" id="banner">
         <div class="container text-white text-center">
@@ -376,27 +377,41 @@
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <script src="js/dashboard-templates.js"></script>
+    <script src="js/dashboard-templates.min.js"></script>
     <script src="js/1981223-main.js"></script>
     <script>
-      onAccessPage();
-      function onAccessPage() {
+      verifyAuthentication();
+      if (location.hash == "" || location.hash == "#") {
+        loadPage();
+      } else {
+        loadDetail(location.hash.substr(1), "details-template", "content");
+      }
+      function loadPage() {
+        document.getElementById("main").style.display = "block";
         document.getElementById("content").style.display = "none";
-        let searchParams = new URLSearchParams(location.search);
-        let request = searchParams.get("request");
-        if (request) {
-          request = request.trim();
-          if (request != "") {
-            getDetailByType(request, "details-template", "content");
-            document.getElementById("content").style.display = "block";
-          }
-        } else {
-          verifyAuthentication();
           getProducts();
           getNews();
-          document.getElementById("content").style.display = "block";
-        }
+        history.replaceState({ loadPage: 1 }, null, location.href);
       }
+
+      async function loadDetail(request, templateId, viewId) {
+        document.getElementById("main").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        await getDetailByType(request, templateId, viewId);
+        history.replaceState(
+          { request, templateId, viewId },
+          null,
+          location.href
+        );
+      }
+      window.onpopstate = (event) => {
+        let state = event.state;
+        if (state && state.loadPage) {
+          loadPage();
+        } else if (state && state.request) {
+          loadDetail(state.request, state.templateId, state.viewId);
+        }
+      };
     </script>
   </body>
 </html>

@@ -5,7 +5,7 @@
             onmouseout="handleToggleImage(this,'{{imagepath}}',false)" />
         <h2>{{name}}</h2>
         <p class="text-black-50">{{summary}}</p>
-        <a class="readmore btn btn-link pt-0" href="?request=products/{{id}}">Read more</a>
+        <a class="readmore btn btn-link pt-0" href="#products/{{id}}"  onclick="loadDetail('products/{{id}}','details-template','content')">Read more</a>
     </div>
     {{/each}}
 </div>
