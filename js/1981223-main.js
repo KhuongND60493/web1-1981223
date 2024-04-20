@@ -1,5 +1,6 @@
 const reCaptchaKey = "6Lcrb8EpAAAAAI4c3yBKYGtTsS0kfJQfCQs0h7Ob";
 const HOST = "https://web1-api.vercel.app";
+const keyAccessToken = "1981223_ACCESSTOKEN";
 const BASE_URL = `${HOST}/api`;
 const api = {
   products: `${BASE_URL}/products`,
@@ -9,6 +10,7 @@ const api = {
   team: `${BASE_URL}/team`,
   testimonials: `${BASE_URL}/testimonials`,
   login: `${HOST}/users/authenticate`,
+  verifyAuthentication: `${HOST}/users/verify`,
   sendMail: `${HOST}/users/send`,
 };
 const templates = {
@@ -135,10 +137,11 @@ async function getAuthenticateToken(username, password) {
     body: JSON.stringify({ username, password }),
   });
   const rs = await res.json();
+
   if (res.status == 200) {
     return rs.token;
   }
-  throw Error(res.message);
+  throw Error(rs.message);
 }
 function reCaptcha(fnCbSuccess = undefined, fnCbError = undefined) {
   grecaptcha.enterprise.ready(async () => {
@@ -182,5 +185,85 @@ async function sendMail(
     if (fnCbSuccess) fnCbSuccess(rs.message);
   } else {
     if (fnCbError) fnCbError(rs.message);
+  }
+}
+
+function onLogin(e) {
+  e.preventDefault();
+  let notiMsg = document.getElementById("errorMessage");
+  login(
+    document.getElementById("username").value,
+    document.getElementById("password").value,
+    function (msg) {
+      showLoginLogoutLink(true);
+      document.getElementsByClassName("btn-close")[0].click();
+    },
+    function (msg) {
+      notiMsg.innerHTML = msg;
+      notiMsg.className = "text-danger";
+    }
+  );
+}
+async function login(username, password, fnCbSuccess = undefined, fnCbError) {
+  try {
+    const response = await getAuthenticateToken(username, password);
+    saveAccessToken(response);
+    if (fnCbSuccess) fnCbSuccess("login successfully");
+  } catch (error) {
+    if (fnCbError) fnCbError(error);
+  }
+}
+
+async function verifyAuthentication() {
+  const token = getAccessToken();
+  if (token) {
+    try {
+      const res = await fetch(api.verifyAuthentication, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+          Authorization: "Bearer " + token,
+        },
+      });
+      const rs = await res.json();
+      if (res.status == 200) {
+        showLoginLogoutLink(true);
+      } else {
+        saveAccessToken(null);
+        showLoginLogoutLink(false);
+      }
+    } catch (error) {
+      saveAccessToken(null);
+    }
+  } else {
+    showLoginLogoutLink(false);
+  }
+}
+function logout() {
+  localStorage.clear();
+  showLoginLogoutLink(false);
+}
+
+function saveAccessToken(token) {
+  localStorage.setItem(keyAccessToken, token);
+}
+
+function getAccessToken() {
+  return localStorage.getItem(keyAccessToken);
+}
+
+function showLoginLogoutLink(isLoginned = false) {
+  let linksLogin = document.getElementsByClassName("linkLogin");
+  let linksLogout = document.getElementsByClassName("linkLogout");
+  let displayLogin = "block";
+  let displayLogout = "none";
+  if (isLoginned) {
+    displayLogin = "none";
+    displayLogout = "block";
+  }
+  for (let i = 0; i < linksLogin.length; i++) {
+    linksLogin[i].style.display = displayLogin;
+    linksLogout[i].style.display = displayLogout;
   }
 }

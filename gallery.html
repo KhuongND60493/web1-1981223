@@ -63,11 +63,19 @@
               </li>
               <li class="nav-item">
                 <a
-                  class="nav-link"
+                  class="nav-link linkLogin"
                   href="#"
+                  style="display: none"
                   data-bs-toggle="modal"
                   data-bs-target="#modalLogin"
                   >Login</a
+                >
+                <a
+                  onclick="logout()"
+                  class="nav-link linkLogout"
+                  style="display: none"
+                  href="#"
+                  >Logout</a
                 >
               </li>
             </ul>
@@ -121,11 +129,19 @@
         </li>
         <li class="nav-item">
           <a
-            class="nav-link"
+            class="nav-link linkLogin"
             href="#"
+            style="display: none"
             data-bs-toggle="modal"
             data-bs-target="#modalLogin"
             >Login</a
+          >
+          <a
+            class="nav-link linkLogout"
+            style="display: none"
+            href="#"
+            onclick="logout()"
+            >Logout</a
           >
         </li>
       </ul>
@@ -159,7 +175,12 @@
             ></button>
           </div>
           <div class="modal-body">
-            <form action="" method="post" id="formLogin">
+            <form
+              action=""
+              method="post"
+              id="formLogin"
+              onsubmit="onLogin(event)"
+            >
               <h3 class="text-center">Login form</h3>
               <div class="mb-3">
                 <input
@@ -168,6 +189,7 @@
                   id="username"
                   placeholder="User name"
                   class="form-control"
+                  required
                 />
               </div>
               <div class="mb-3">
@@ -177,12 +199,16 @@
                   id="password"
                   placeholder="Password"
                   class="form-control"
+                  required
                 />
               </div>
               <button type="submit" class="form-control btn btn-primary">
                 Login
               </button>
             </form>
+          </div>
+          <div class="modal-footer">
+            <div class="text-danger" id="errorMessage"></div>
           </div>
         </div>
       </div>
@@ -236,6 +262,7 @@
     ></script>
     <script src="js/1981223-main.js"></script>
     <script>
+      verifyAuthentication();
       getList(
         "gallery-categories",
         "gallery-categories-template",
