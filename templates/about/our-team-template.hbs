@@ -1,0 +1,10 @@
+{{#each data}}
+<div class="col py-3">
+    <a href="#team/{{id}}" class="text-decoration-none"
+        onclick="loadDetail('team/{{id}}','about-detail-template','content')">
+        <img src="{{thumbpath}}" class="rounded-4 mb-3 img-fluid" alt="{{name}}" />
+        <h5 class="text-black">{{name}}</h5>
+        <p class="text-black-50">{{summary}}</p>
+    </a>
+</div>
+{{/each}}

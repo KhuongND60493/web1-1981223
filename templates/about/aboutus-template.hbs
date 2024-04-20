@@ -1,0 +1,6 @@
+{{#each data}}
+<img src="{{thumbpath}}" alt="{{name}}" class="float-start rounded-4 me-3" />
+{{{summary}}}
+<a href="#aboutus/{{id}}" class="btn btn-link readmore ps-0"
+    onclick="loadDetail('aboutus/{{id}}','about-detail-template','content')">Read more</a>
+{{/each}}

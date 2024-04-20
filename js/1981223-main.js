@@ -35,8 +35,7 @@ const views = {
 async function getProducts() {
   const res = await fetch(api.products);
   const data = await res.json();
-  var source = document.getElementById(templates.productListTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${templates.productListTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(views.productSection).innerHTML = html;
@@ -45,8 +44,7 @@ async function getProducts() {
 async function getNews() {
   const res = await fetch(api.news);
   const data = await res.json();
-  var source = document.getElementById(templates.newsListTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${templates.newsListTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(views.newsSection).innerHTML = html;
@@ -55,8 +53,7 @@ async function getNews() {
 async function getAboutUs() {
   const res = await fetch(api.aboutus);
   const data = await res.json();
-  var source = document.getElementById(templates.aboutUsTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${templates.aboutUsTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(views.aboutSection).innerHTML = html;
@@ -65,8 +62,7 @@ async function getAboutUs() {
 async function getOurTeams() {
   const res = await fetch(api.team);
   const data = await res.json();
-  var source = document.getElementById(templates.ourTeamListTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${templates.ourTeamListTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(views.ourTeamSection).innerHTML = html;
@@ -75,8 +71,7 @@ async function getOurTeams() {
 async function getVisions() {
   const res = await fetch(api.visions);
   const data = await res.json();
-  var source = document.getElementById(templates.visionsListTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${templates.visionsListTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(views.visionSection).innerHTML = html;
@@ -84,10 +79,8 @@ async function getVisions() {
 async function getTestimonials() {
   const res = await fetch(api.testimonials);
   const data = await res.json();
-  var source = document.getElementById(
-    templates.testimonialsListTemplate
-  ).innerHTML;
-  var template = Handlebars.compile(source);
+  var template =
+    Handlebars.templates[`${templates.testimonialsListTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(views.testimonialsSection).innerHTML = html;
@@ -95,8 +88,7 @@ async function getTestimonials() {
 async function getList(subUrl, idTemplate, idSection) {
   const res = await fetch(`${BASE_URL}/${subUrl}`);
   const data = await res.json();
-  var source = document.getElementById(idTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${idTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(idSection).innerHTML = html;
@@ -108,8 +100,7 @@ async function getListBlogs(subUrl, idTemplate, idSection, page = undefined) {
   const blogs = data?.data || [];
 
   const currentPage = page ? parseInt(`${page}`) : 1;
-  var source = document.getElementById(idTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${idTemplate}.hbs`];
   var context = { data: blogs, currentPage, pageCount: data?.pageCount || 0 };
   var html = template(context);
   document.getElementById(idSection).innerHTML = html;
@@ -117,8 +108,7 @@ async function getListBlogs(subUrl, idTemplate, idSection, page = undefined) {
 async function handleLoadReadMore(urlGetById, idTemplate, idView) {
   const res = await fetch(`${BASE_URL}/${urlGetById}`);
   const data = await res.json();
-  var source = document.getElementById(idTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${idTemplate}.hbs`];
   var context = { data: data };
   var html = template(context);
   document.getElementById(idView).innerHTML = html;
@@ -301,9 +291,7 @@ async function sendBlogComment(
 async function searchWithKeyword(keyword, idTemplate, idSection) {
   const res = await fetch(`${api.search}${keyword}`);
   const results = await res.json();
-
-  var source = document.getElementById(idTemplate).innerHTML;
-  var template = Handlebars.compile(source);
+  var template = Handlebars.templates[`${idTemplate}.hbs`];
   var context = { data: results };
   var html = template(context);
   document.getElementById(idSection).innerHTML = html;

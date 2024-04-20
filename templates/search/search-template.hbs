@@ -1,0 +1,11 @@
+{{#each data as |data|}}
+<div class="row py-3">
+    <a class="text-decoration-none text-black" href="#"
+        onclick="getList('{{type}}/{{id}}','search-detail-template','section-search')">
+        <h1>{{name}}</h1>
+    </a>
+    <p class="text-black-50">{{{summary}}}</p>
+</div>
+{{else}}
+<h1>Dont have any results</h1>
+{{/each}}

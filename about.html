@@ -236,98 +236,11 @@
       </div>
     </div>
     <script
-      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
-      integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg=="
+      src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.runtime.min.js"
+      integrity="sha512-WUaZk9J3oknQdKPT2wAfA0gEBG2371l1ACjiynLA/X28p07n1u59VFk7q1i83/bo7N9rqVdYKlnvwAAiwL36jQ=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <!-- template -->
-    <!-- about-us -->
-    <script id="aboutus-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <img
-          src="{{thumbpath}}"
-          alt="{{name}}"
-          class="float-start rounded-4 me-3"
-        />
-        {{{summary}}}
-        <a
-          href="#aboutus/{{id}}"
-          class="btn btn-link readmore ps-0"
-          onclick="loadDetail('aboutus/{{id}}','about-detail-template','content')"
-        >Read more</a>
-      {{/each}}
-    </script>
-    <!-- our-vision -->
-    <script id="our-vision-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <a
-          href="#vision/{{id}}"
-          class="text-decoration-none"
-          onclick="loadDetail('visions/{{id}}','about-detail-template','content')"
-        >
-          <div class="clearfix mb-3 item-our-vision">
-            <img
-              src="{{thumbpath}}"
-              alt="{{name}}"
-              class="rounded-4 me-3 float-start"
-            />
-            <h3 class="text-black">{{name}}</h3>
-            <p class="text-black-50">{{summary}}</p>
-          </div>
-        </a>
-      {{/each}}
-    </script>
-    <!-- testimonials -->
-    <script id="testimonials-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col">
-          <p class="text-black-50">{{summary}}</p>
-          <span class="text-white">{{name}}</span><br />
-          <a href="#">{{email}}</a>
-        </div>
-      {{/each}}
-    </script>
-    <!-- our-team-template -->
-    <script id="our-team-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col py-3">
-          <a
-            href="#team/{{id}}"
-            class="text-decoration-none"
-            onclick="loadDetail('team/{{id}}','about-detail-template','content')"
-          >
-            <img
-              src="{{thumbpath}}"
-              class="rounded-4 mb-3 img-fluid"
-              alt="{{name}}"
-            />
-            <h5 class="text-black">{{name}}</h5>
-            <p class="text-black-50">{{summary}}</p>
-          </a>
-        </div>
-      {{/each}}
-    </script>
-    <!-- about-detail -->
-    <script id="about-detail-template" type="text/x-handlebars-template">
-      <section class="container py-5">
-        {{#each data}}
-          <h1 class="py-3">{{name}}</h1>
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <img
-                src="{{imagepath}}"
-                alt="{{name}}"
-                class="float-start rounded-4 me-3 img-fluid"
-              />
-            </div>
-            <div class="col-lg-8 col-md-6 col-sm-12">
-              {{{description}}}
-            </div>
-          </div>
-        {{/each}}
-      </section>
-    </script>
     <!-- boostrap javascript -->
     <script
       src="https://kit.fontawesome.com/048d29bdeb.js"
@@ -338,10 +251,11 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
+
+    <script src="js/about-templates.js"></script>
     <script src="js/1981223-main.js"></script>
     <script>
       verifyAuthentication();
-      console.log("aaaa", location.hash == "");
       if (location.hash == "" || location.hash == "#") {
         loadPage();
       } else {
