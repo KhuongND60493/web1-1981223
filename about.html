@@ -102,7 +102,8 @@
     </header>
 
     <section class="container separate-line"></section>
-    <div id="content">
+    <div id="content"></div>
+    <div id="main">
       <section class="container py-5">
         <div class="row">
           <div class="col-lg-8 col-md-12 col-sm-12">
@@ -251,27 +252,30 @@
         />
         {{{summary}}}
         <a
-          href="#"
+          href="#aboutus/{{id}}"
           class="btn btn-link readmore ps-0"
-          onclick="handleLoadReadMore('aboutus/{{id}}','about-detail-template','content')"
+          onclick="loadDetail('aboutus/{{id}}','about-detail-template','content')"
         >Read more</a>
       {{/each}}
     </script>
     <!-- our-vision -->
     <script id="our-vision-template" type="text/x-handlebars-template">
       {{#each data}}
-        <div
-          class="clearfix mb-3 item-our-vision"
-          onclick="handleLoadReadMore('visions/{{id}}','about-detail-template','content')"
+        <a
+          href="#vision/{{id}}"
+          class="text-decoration-none"
+          onclick="loadDetail('visions/{{id}}','about-detail-template','content')"
         >
-          <img
-            src="{{thumbpath}}"
-            alt="{{name}}"
-            class="rounded-4 me-3 float-start"
-          />
-          <h3>{{name}}</h3>
-          <p class="text-black-50">{{summary}}</p>
-        </div>
+          <div class="clearfix mb-3 item-our-vision">
+            <img
+              src="{{thumbpath}}"
+              alt="{{name}}"
+              class="rounded-4 me-3 float-start"
+            />
+            <h3 class="text-black">{{name}}</h3>
+            <p class="text-black-50">{{summary}}</p>
+          </div>
+        </a>
       {{/each}}
     </script>
     <!-- testimonials -->
@@ -289,9 +293,9 @@
       {{#each data}}
         <div class="col py-3">
           <a
-            href="#"
+            href="#team/{{id}}"
             class="text-decoration-none"
-            onclick="handleLoadReadMore('team/{{id}}','about-detail-template','content')"
+            onclick="loadDetail('team/{{id}}','about-detail-template','content')"
           >
             <img
               src="{{thumbpath}}"
@@ -337,10 +341,40 @@
     <script src="js/1981223-main.js"></script>
     <script>
       verifyAuthentication();
-      getAboutUs();
-      getVisions();
-      getOurTeams();
-      getTestimonials();
+      console.log("aaaa", location.hash == "");
+      if (location.hash == "" || location.hash == "#") {
+        loadPage();
+      } else {
+        loadDetail(location.hash.substr(1), "about-detail-template", "content");
+      }
+      function loadPage() {
+        document.getElementById("main").style.display = "block";
+        document.getElementById("content").style.display = "none";
+        getAboutUs();
+        getVisions();
+        getOurTeams();
+        getTestimonials();
+        history.replaceState({ loadPage: 1 }, null, location.href);
+      }
+
+      async function loadDetail(request, templateId, viewId) {
+        document.getElementById("main").style.display = "none";
+        document.getElementById("content").style.display = "block";
+        await handleLoadReadMore(request, templateId, viewId);
+        history.replaceState(
+          { request, templateId, viewId },
+          null,
+          location.href
+        );
+      }
+      window.onpopstate = (event) => {
+        let state = event.state;
+        if (state && state.loadPage) {
+          loadPage();
+        } else if (state && state.request) {
+          loadDetail(state.request, state.templateId, state.viewId);
+        }
+      };
     </script>
   </body>
 </html>
