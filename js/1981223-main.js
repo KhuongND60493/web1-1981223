@@ -3,12 +3,12 @@ const HOST = "https://web1-api.vercel.app";
 const keyAccessToken = "1981223_ACCESSTOKEN";
 const BASE_URL = `${HOST}/api`;
 const api = {
-  products: `${BASE_URL}/products`,
-  news: `${BASE_URL}/news`,
-  aboutus: `${BASE_URL}/aboutus`,
-  visions: `${BASE_URL}/visions`,
-  team: `${BASE_URL}/team`,
-  testimonials: `${BASE_URL}/testimonials`,
+  products: `products`,
+  news: `news`,
+  aboutus: `aboutus`,
+  visions: `visions`,
+  team: `team`,
+  testimonials: `testimonials`,
   login: `${HOST}/users/authenticate`,
   verifyAuthentication: `${HOST}/users/verify`,
   sendMail: `${HOST}/users/send`,
@@ -33,57 +33,26 @@ const views = {
 };
 
 async function getProducts() {
-  const res = await fetch(api.products);
-  const data = await res.json();
-  var template = Handlebars.templates[`${templates.productListTemplate}.hbs`];
-  var context = { data: data };
-  var html = template(context);
-  document.getElementById(views.productSection).innerHTML = html;
+  getList(api.products, templates.productListTemplate, views.productSection);
 }
 
 async function getNews() {
-  const res = await fetch(api.news);
-  const data = await res.json();
-  var template = Handlebars.templates[`${templates.newsListTemplate}.hbs`];
-  var context = { data: data };
-  var html = template(context);
-  document.getElementById(views.newsSection).innerHTML = html;
+  getList(api.news, templates.newsListTemplate, views.newsSection);
 }
 
 async function getAboutUs() {
-  const res = await fetch(api.aboutus);
-  const data = await res.json();
-  var template = Handlebars.templates[`${templates.aboutUsTemplate}.hbs`];
-  var context = { data: data };
-  var html = template(context);
-  document.getElementById(views.aboutSection).innerHTML = html;
+  getList(api.aboutus, templates.aboutUsTemplate, views.aboutSection);
 }
 
 async function getOurTeams() {
-  const res = await fetch(api.team);
-  const data = await res.json();
-  var template = Handlebars.templates[`${templates.ourTeamListTemplate}.hbs`];
-  var context = { data: data };
-  var html = template(context);
-  document.getElementById(views.ourTeamSection).innerHTML = html;
+  getList(api.team, templates.ourTeamListTemplate, views.ourTeamSection);
 }
 
 async function getVisions() {
-  const res = await fetch(api.visions);
-  const data = await res.json();
-  var template = Handlebars.templates[`${templates.visionsListTemplate}.hbs`];
-  var context = { data: data };
-  var html = template(context);
-  document.getElementById(views.visionSection).innerHTML = html;
+  getList(api.visions, templates.visionsListTemplate, views.visionSection);
 }
 async function getTestimonials() {
-  const res = await fetch(api.testimonials);
-  const data = await res.json();
-  var template =
-    Handlebars.templates[`${templates.testimonialsListTemplate}.hbs`];
-  var context = { data: data };
-  var html = template(context);
-  document.getElementById(views.testimonialsSection).innerHTML = html;
+  getList(api.testimonials, templates.testimonialsListTemplate, views.testimonialsSection);
 }
 async function getList(subUrl, idTemplate, idSection) {
   const res = await fetch(`${BASE_URL}/${subUrl}`);
@@ -105,7 +74,7 @@ async function getListBlogs(subUrl, idTemplate, idSection, page = undefined) {
   var html = template(context);
   document.getElementById(idSection).innerHTML = html;
 }
-async function handleLoadReadMore(urlGetById, idTemplate, idView) {
+async function getDetailByType(urlGetById, idTemplate, idView) {
   const res = await fetch(`${BASE_URL}/${urlGetById}`);
   const data = await res.json();
   var template = Handlebars.templates[`${idTemplate}.hbs`];

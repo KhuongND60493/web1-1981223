@@ -20,7 +20,7 @@
     />
 
     <!--    main css-->
-    <link rel="stylesheet" href="css/styles.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
 
   <body>
@@ -253,7 +253,7 @@
     ></script>
 
     <script src="js/about-templates.js"></script>
-    <script src="js/1981223-main.min.js"></script>
+    <script src="js/1981223-main.js"></script>
     <script>
       verifyAuthentication();
       if (location.hash == "" || location.hash == "#") {
@@ -274,7 +274,7 @@
       async function loadDetail(request, templateId, viewId) {
         document.getElementById("main").style.display = "none";
         document.getElementById("content").style.display = "block";
-        await handleLoadReadMore(request, templateId, viewId);
+        await getDetailByType(request, templateId, viewId);
         history.replaceState(
           { request, templateId, viewId },
           null,

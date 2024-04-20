@@ -25,7 +25,7 @@
     />
 
     <!--    main css-->
-    <link rel="stylesheet" href="css/styles.min.css" />
+    <link rel="stylesheet" href="css/styles.css" />
   </head>
 
   <body>
@@ -377,7 +377,7 @@
       referrerpolicy="no-referrer"
     ></script>
     <script src="js/dashboard-templates.js"></script>
-    <script src="js/1981223-main.min.js"></script>
+    <script src="js/1981223-main.js"></script>
     <script>
       onAccessPage();
       function onAccessPage() {
@@ -387,7 +387,7 @@
         if (request) {
           request = request.trim();
           if (request != "") {
-            handleLoadReadMore(request, "details-template", "content");
+            getDetailByType(request, "details-template", "content");
             document.getElementById("content").style.display = "block";
           }
         } else {
