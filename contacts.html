@@ -134,85 +134,82 @@
           </p>
           <p><i>Send an email. All fields with an * are required</i></p>
         </div>
-        <form action="post" action="#" class="text-black-50" onsubmit="onSubmit(event)">
-            <div class="row">
-              <div class="col-4">
-                <div class="mb-3">
-                  <label for="name" class="form-label">Name *</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder=""
-                    id="name"
-                    name="name"
-                    required
-                  />
-                </div>
-
-              </div>
-              <div class="col-4">
-                <div class="mb-3">
-                  <label for="name" class="form-label">Email *</label>
-                  <input
-                    type="email"
-                    class="form-control"
-                    placeholder=""
-                    id="email"
-                    required
-                    name="email"
-                  />
-                </div>
-              </div>
-                <div class="col-4">
-                <div class="mb-3">
-                  <label for="name" class="form-label">Subject *</label>
-                  <input
-                    type="text"
-                    class="form-control"
-                    placeholder=""
-                    id="subject"
-                    name="subject"
-                    required
-                  />
-                </div>
-              </div>
-            </div>
-            <div>
+        <form
+          action="post"
+          action="#"
+          class="text-black-50"
+          onsubmit="onSubmit(event)"
+        >
+          <div class="row">
+            <div class="col-4">
               <div class="mb-3">
-                <label for="name" class="form-label">Message *</label>
-                <textarea
+                <label for="name" class="form-label">Name *</label>
+                <input
+                  type="text"
                   class="form-control"
-                  name="message"
-                  id="message"
-                  rows="3"
+                  placeholder=""
+                  id="name"
+                  name="name"
                   required
-                ></textarea>
+                />
               </div>
             </div>
-            <div class="row">
-                <div class="col">
-                
-                </div>
-                <div class="text-end col">
-                    <div class="form-check">
-                        <label class="form-check-label text-black-50" for="copy">Send copy to yourself  &nbsp;</label>
-                        <input
-                            type="checkbox"
-                            id="copy"
-                            name="copy"
-                            value="1"
-                        />
-                        &nbsp;
-                         <button type="submit"class="btn btn-primary">
-                            Submit Comment
-                        </button>
-                    </div>
-                   
+            <div class="col-4">
+              <div class="mb-3">
+                <label for="name" class="form-label">Email *</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  placeholder=""
+                  id="email"
+                  required
+                  name="email"
+                />
               </div>
             </div>
+            <div class="col-4">
+              <div class="mb-3">
+                <label for="name" class="form-label">Subject *</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  placeholder=""
+                  id="subject"
+                  name="subject"
+                  required
+                />
+              </div>
             </div>
-            <div id="message-res" class="text-success"></div>
-          </form>
+          </div>
+          <div>
+            <div class="mb-3">
+              <label for="name" class="form-label">Message *</label>
+              <textarea
+                class="form-control"
+                name="message"
+                id="message"
+                rows="3"
+                required
+              ></textarea>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col"></div>
+            <div class="text-end col">
+              <div class="form-check">
+                <label class="form-check-label text-black-50" for="copy"
+                  >Send copy to yourself &nbsp;</label
+                >
+                <input type="checkbox" id="copy" name="copy" value="1" />
+                &nbsp;
+                <button type="submit" class="btn btn-primary">
+                  Submit Comment
+                </button>
+              </div>
+            </div>
+          </div>
+          <div id="message-res" class="text-success"></div>
+        </form>
       </section>
     </div>
 
@@ -325,38 +322,46 @@
     <script src="js/map.js"></script>
     <script src="js/1981223-main.js"></script>
     <script>
-    function onSubmit(e) {
+      function onSubmit(e) {
         e.preventDefault();
-        let resMsg=document.getElementById('message-res');
-        reCaptcha(async function(){
+        let resMsg = document.getElementById("message-res");
+        reCaptcha(
+          async function () {
             try {
-                const accessToken=await getAuthenticateToken('test','1c3cr3@m');  
-                const data={
-                        name: document.getElementById('name').value,
-                        email: document.getElementById('email').value,
-                        subject: document.getElementById('subject').value,
-                        message: document.getElementById('message').value,
-                        copy: document.getElementById('copy').value
-                    };  
-                sendMail(
-                        data,
-                        accessToken,
-                        function(msgSuccess){
-                            resMsg.innerHTML=msgSuccess;
-                            resMsg.className='text-primary';
-                        },function(msgErr){
-                            resMsg.innerHTML=msgErr;
-                            resMsg.className='text-danger';
-                        });
+              const accessToken = await getAuthenticateToken(
+                "test",
+                "1c3cr3@m"
+              );
+              const data = {
+                name: document.getElementById("name").value,
+                email: document.getElementById("email").value,
+                subject: document.getElementById("subject").value,
+                message: document.getElementById("message").value,
+                copy: document.getElementById("copy").value,
+              };
+              sendMail(
+                data,
+                accessToken,
+                function (msgSuccess) {
+                  resMsg.innerHTML = msgSuccess;
+                  resMsg.className = "text-primary";
+                },
+                function (msgErr) {
+                  resMsg.innerHTML = msgErr;
+                  resMsg.className = "text-danger";
+                }
+              );
             } catch (error) {
-                resMsg.innerHTML=error;
-                resMsg.className='text-danger';
-            }  
-            },function(){
-                resMsg.innerHTML='Error: Cant verify reCaptcha';
-                resMsg.className='text-danger';
-            })
-    }
+              resMsg.innerHTML = error;
+              resMsg.className = "text-danger";
+            }
+          },
+          function () {
+            resMsg.innerHTML = "Error: Cant verify reCaptcha";
+            resMsg.className = "text-danger";
+          }
+        );
+      }
     </script>
   </body>
 </html>
