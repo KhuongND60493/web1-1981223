@@ -174,3 +174,9 @@ footer{
    .item-our-vision:hover{
     cursor: pointer;
    }
+
+
+   /* gallery */
+   #gallery-categories-section a.active{
+    color:  black;
+   }
