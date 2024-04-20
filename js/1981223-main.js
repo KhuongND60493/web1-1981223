@@ -1,3 +1,4 @@
+const reCapchaKey = "6Lcrb8EpAAAAAI4c3yBKYGtTsS0kfJQfCQs0h7Ob";
 const HOST = "https://web1-api.vercel.app";
 const BASE_URL = `${HOST}/api`;
 const api = {
@@ -137,4 +138,26 @@ async function getAuthenticateToken(username, password) {
     return rs.token;
   }
   throw Error(res.message);
+}
+function onSubmitContact(e, fnCbSuccess = undefined, fnCbError = undefined) {
+  e.preventDefault();
+  grecaptcha.enterprise.ready(async () => {
+    const token = await grecaptcha.enterprise.execute(reCapchaKey, {
+      action: "submit",
+    });
+    let response = await fetch("verify.php", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify({ "g-token": token }),
+    });
+
+    if (response.status == 200) {
+      if (fnCbSuccess) fnCbSuccess();
+    } else {
+      if (fnCbError) fnCbError();
+    }
+  });
 }

@@ -326,39 +326,22 @@
     <script src="js/1981223-main.js"></script>
     <script>
     function onSubmit(e) {
-        e.preventDefault();
-        grecaptcha.enterprise.ready(async () => {
-            const token = await grecaptcha.enterprise.execute('6Lcrb8EpAAAAAI4c3yBKYGtTsS0kfJQfCQs0h7Ob', {action: 'submit'});
-            let response=await fetch('verify.php',{
-                method:'POST',
-                headers:{
-                    "Content-Type":"application/json",
-                    "Accept":"application/json"
-                },
-                body:JSON.stringify({'g-token':token})
-            })
-    
-            if(response.status == 200){
-                sendEmail()
-            }else{
-                let resMsg=document.getElementById('message-res');
+        let resMsg=document.getElementById('message-res');
+        onSubmitContact(e,async function(){
+            try {
+                const accessToken=await getAuthenticateToken('test','1c3cr3@m');
+                console.log('aaaaaa',accessToken);    
+                
+            } catch (error) {
+                resMsg.innerHTML=error;
+                resMsg.classList.remove();
+                resMsg.classList.toggle('text-danger')
+            }  
+            },function(){
                 resMsg.innerHTML='Error: Cant verify reCaptcha';
                 resMsg.classList.remove();
                 resMsg.classList.toggle('text-danger')
-            }
-        });
-    }
-    async function sendEmail(){
-        let resMsg=document.getElementById('message-res');
-        try {
-            const accessToken=await getAuthenticateToken('test','1c3cr3@m');
-            console.log('aaaaaa',accessToken);    
-             
-        } catch (error) {
-            resMsg.innerHTML=error;
-            resMsg.classList.remove();
-            resMsg.classList.toggle('text-danger')
-        }
+            })
     }
     </script>
   </body>
