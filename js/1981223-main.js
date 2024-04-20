@@ -168,7 +168,7 @@ async function sendMail(
   fnCbSuccess = undefined,
   fnCbError = undefined
 ) {
-  const res = await fetch(api.sendMail, {
+  const response = await fetch(api.sendMail, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -177,7 +177,7 @@ async function sendMail(
     },
     body: JSON.stringify(postData),
   });
-  const rs = await res.json();
+  const rs = await response.json();
   if (response.status == 200) {
     if (fnCbSuccess) fnCbSuccess(rs.message);
   } else {
