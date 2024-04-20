@@ -12,6 +12,7 @@ const api = {
   login: `${HOST}/users/authenticate`,
   verifyAuthentication: `${HOST}/users/verify`,
   sendMail: `${HOST}/users/send`,
+  sendBlogComment: `${HOST}/users/comment`,
 };
 const templates = {
   productListTemplate: "products-template",
@@ -93,8 +94,6 @@ async function getTestimonials() {
 async function getList(subUrl, idTemplate, idSection) {
   const res = await fetch(`${BASE_URL}/${subUrl}`);
   const data = await res.json();
-
-  console.log("aaaa", data);
   var source = document.getElementById(idTemplate).innerHTML;
   var template = Handlebars.compile(source);
   var context = { data: data };
@@ -230,13 +229,15 @@ async function verifyAuthentication() {
       if (res.status == 200) {
         showLoginLogoutLink(true);
       } else {
-        saveAccessToken(null);
+        localStorage.clear();
         showLoginLogoutLink(false);
       }
     } catch (error) {
-      saveAccessToken(null);
+      showLoginLogoutLink(false);
+      localStorage.clear();
     }
   } else {
+    localStorage.clear();
     showLoginLogoutLink(false);
   }
 }
@@ -252,10 +253,13 @@ function saveAccessToken(token) {
 function getAccessToken() {
   return localStorage.getItem(keyAccessToken);
 }
-
+function showCommens() {
+  showLoginLogoutLink(getAccessToken() != null);
+}
 function showLoginLogoutLink(isLoginned = false) {
   let linksLogin = document.getElementsByClassName("linkLogin");
   let linksLogout = document.getElementsByClassName("linkLogout");
+  let leaveComments = document.getElementById("leave-comments");
   let displayLogin = "block";
   let displayLogout = "none";
   if (isLoginned) {
@@ -265,5 +269,30 @@ function showLoginLogoutLink(isLoginned = false) {
   for (let i = 0; i < linksLogin.length; i++) {
     linksLogin[i].style.display = displayLogin;
     linksLogout[i].style.display = displayLogout;
+  }
+  if (leaveComments) {
+    leaveComments.style.display = displayLogout;
+  }
+}
+
+async function sendBlogComment(
+  postData,
+  fnCbSuccess = undefined,
+  fnCbError = undefined
+) {
+  const response = await fetch(api.sendBlogComment, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "Bearer " + getAccessToken(),
+    },
+    body: JSON.stringify(postData),
+  });
+  const rs = await response.json();
+  if (response.status == 200) {
+    if (fnCbSuccess) fnCbSuccess(rs.message);
+  } else {
+    if (fnCbError) fnCbError(rs.message);
   }
 }
