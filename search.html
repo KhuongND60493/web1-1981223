@@ -3,7 +3,7 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>1981223 - Web1 Project | About</title>
+    <title>1981223 - Web1 Project | Search Results</title>
     <!--    font-->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -24,6 +24,7 @@
   </head>
 
   <body>
+    <!-- header -->
     <header class="container">
       <nav class="navbar navbar-expand-sm navbar-light">
         <div class="container">
@@ -44,12 +45,12 @@
           <div class="collapse navbar-collapse float-end" id="menu-header">
             <ul class="navbar-nav me-auto mt-2 mt-lg-0">
               <li class="nav-item">
-                <a class="nav-link" href="index.html" aria-current="page"
+                <a class="nav-link active" href="index.html" aria-current="page"
                   >Home <span class="visually-hidden">(current)</span></a
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="about.html">About</a>
+                <a class="nav-link" href="about.html">About</a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="gallery.html">Gallery</a>
@@ -100,44 +101,23 @@
         </div>
       </nav>
     </header>
-
+    <!-- line separate -->
     <section class="container separate-line"></section>
-    <div id="content">
-      <section class="container py-5">
-        <div class="row">
-          <div class="col-lg-8 col-md-12 col-sm-12">
-            <h1 class="py-3">About</h1>
-            <div id="section-aboutus"></div>
-          </div>
-          <div class="col-lg-4 col-md-12 col-sm-12">
-            <h1 class="py-3">Our vision</h1>
-            <div id="section-our-vision"></div>
-          </div>
-        </div>
-      </section>
-      <!-- testimonials -->
-      <section class="container-fuid py-5" id="testimonials">
-        <div class="container">
-          <h1 class="text-white">Testimonials</h1>
-          <div class="row py-3" id="section-testimonials"></div>
-        </div>
-      </section>
 
-      <!-- our team -->
-      <section class="container py-5" id="ourteam">
-        <h1>Our team</h1>
-        <div class="row" id="section-our-team"></div>
-      </section>
+    <div id="content">
+      <section class="container py-5" id="section-search"></section>
     </div>
 
     <!-- footer -->
     <footer class="text-center container-fluid text-white py-3">
       <ul class="nav justify-content-center py-3" id="menu-footer">
         <li class="nav-item">
-          <a class="nav-link" href="index.html" aria-current="page"> Home </a>
+          <a class="nav-link active" href="index.html" aria-current="page">
+            Home
+          </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link active" href="about.html">About</a>
+          <a class="nav-link" href="about.html">About</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="gallery.html">Gallery</a>
@@ -234,96 +214,39 @@
         </div>
       </div>
     </div>
+    <script id="search-template" type="text/x-handlebars-template">
+      {{#each data as |data|}}
+        <div class="row py-3">
+          <a
+            class="text-decoration-none text-black"
+            href="#"
+            onclick="getList('{{type}}/{{id}}','search-detail-template','section-search')"
+          >
+            <h1>{{name}}</h1>
+          </a>
+          <p class="text-black-50">{{{summary}}}</p>
+        </div>
+      {{else}}
+        <h1>Dont have any results</h1>
+      {{/each}}
+    </script>
+    <script id="search-detail-template" type="text/x-handlebars-template">
+      {{#each data}}
+        <div class="container">
+            <h1>{{name}}</h1>
+            {{#if imagepath}}
+            <img src="{{imagepath}}" alt="{{name}}" class="float-start me-3"/>
+            {{/if}}
+          <p class="text-black-50">{{{description}}}</p>
+      {{/each}}
+    </script>
     <script
       src="https://cdnjs.cloudflare.com/ajax/libs/handlebars.js/4.7.8/handlebars.min.js"
       integrity="sha512-E1dSFxg+wsfJ4HKjutk/WaCzK7S2wv1POn1RRPGh8ZK+ag9l244Vqxji3r6wgz9YBf6+vhQEYJZpSjqWFPg9gg=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
     ></script>
-    <!-- template -->
-    <!-- about-us -->
-    <script id="aboutus-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <img
-          src="{{thumbpath}}"
-          alt="{{name}}"
-          class="float-start rounded-4 me-3"
-        />
-        {{{summary}}}
-        <a
-          href="#"
-          class="btn btn-link readmore ps-0"
-          onclick="handleLoadReadMore('aboutus/{{id}}','about-detail-template','content')"
-        >Read more</a>
-      {{/each}}
-    </script>
-    <!-- our-vision -->
-    <script id="our-vision-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div
-          class="clearfix mb-3 item-our-vision"
-          onclick="handleLoadReadMore('visions/{{id}}','about-detail-template','content')"
-        >
-          <img
-            src="{{thumbpath}}"
-            alt="{{name}}"
-            class="rounded-4 me-3 float-start"
-          />
-          <h3>{{name}}</h3>
-          <p class="text-black-50">{{summary}}</p>
-        </div>
-      {{/each}}
-    </script>
-    <!-- testimonials -->
-    <script id="testimonials-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col">
-          <p class="text-black-50">{{summary}}</p>
-          <span class="text-white">{{name}}</span><br />
-          <a href="#">{{email}}</a>
-        </div>
-      {{/each}}
-    </script>
-    <!-- our-team-template -->
-    <script id="our-team-template" type="text/x-handlebars-template">
-      {{#each data}}
-        <div class="col py-3">
-          <a
-            href="#"
-            class="text-decoration-none"
-            onclick="handleLoadReadMore('team/{{id}}','about-detail-template','content')"
-          >
-            <img
-              src="{{thumbpath}}"
-              class="rounded-4 mb-3 img-fluid"
-              alt="{{name}}"
-            />
-            <h5 class="text-black">{{name}}</h5>
-            <p class="text-black-50">{{summary}}</p>
-          </a>
-        </div>
-      {{/each}}
-    </script>
-    <!-- about-detail -->
-    <script id="about-detail-template" type="text/x-handlebars-template">
-      <section class="container py-5">
-        {{#each data}}
-          <h1 class="py-3">{{name}}</h1>
-          <div class="row">
-            <div class="col-lg-4 col-md-6 col-sm-12">
-              <img
-                src="{{imagepath}}"
-                alt="{{name}}"
-                class="float-start rounded-4 me-3 img-fluid"
-              />
-            </div>
-            <div class="col-lg-8 col-md-6 col-sm-12">
-              {{{description}}}
-            </div>
-          </div>
-        {{/each}}
-      </section>
-    </script>
+
     <!-- boostrap javascript -->
     <script
       src="https://kit.fontawesome.com/048d29bdeb.js"
@@ -337,10 +260,17 @@
     <script src="js/1981223-main.js"></script>
     <script>
       verifyAuthentication();
-      getAboutUs();
-      getVisions();
-      getOurTeams();
-      getTestimonials();
+      search();
+      function search() {
+        const searchParams = new URLSearchParams(location.search);
+        let keyword = searchParams.get("keyword");
+        if (keyword) {
+          keyword = keyword.trim();
+          if (keyword != "") {
+            searchWithKeyword(keyword, "search-template", "section-search");
+          }
+        }
+      }
     </script>
   </body>
 </html>

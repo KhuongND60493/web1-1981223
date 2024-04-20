@@ -13,6 +13,7 @@ const api = {
   verifyAuthentication: `${HOST}/users/verify`,
   sendMail: `${HOST}/users/send`,
   sendBlogComment: `${HOST}/users/comment`,
+  search: `${BASE_URL}/search?keyword=`,
 };
 const templates = {
   productListTemplate: "products-template",
@@ -295,4 +296,15 @@ async function sendBlogComment(
   } else {
     if (fnCbError) fnCbError(rs.message);
   }
+}
+
+async function searchWithKeyword(keyword, idTemplate, idSection) {
+  const res = await fetch(`${api.search}${keyword}`);
+  const results = await res.json();
+
+  var source = document.getElementById(idTemplate).innerHTML;
+  var template = Handlebars.compile(source);
+  var context = { data: results };
+  var html = template(context);
+  document.getElementById(idSection).innerHTML = html;
 }
