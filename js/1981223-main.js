@@ -1,4 +1,4 @@
-const reCapchaKey = "6Lcrb8EpAAAAAI4c3yBKYGtTsS0kfJQfCQs0h7Ob";
+const reCaptchaKey = "6Lcrb8EpAAAAAI4c3yBKYGtTsS0kfJQfCQs0h7Ob";
 const HOST = "https://web1-api.vercel.app";
 const BASE_URL = `${HOST}/api`;
 const api = {
@@ -9,6 +9,7 @@ const api = {
   team: `${BASE_URL}/team`,
   testimonials: `${BASE_URL}/testimonials`,
   login: `${HOST}/users/authenticate`,
+  sendMail: `${HOST}/users/send`,
 };
 const templates = {
   productListTemplate: "products-template",
@@ -139,10 +140,9 @@ async function getAuthenticateToken(username, password) {
   }
   throw Error(res.message);
 }
-function onSubmitContact(e, fnCbSuccess = undefined, fnCbError = undefined) {
-  e.preventDefault();
+function reCaptcha(fnCbSuccess = undefined, fnCbError = undefined) {
   grecaptcha.enterprise.ready(async () => {
-    const token = await grecaptcha.enterprise.execute(reCapchaKey, {
+    const token = await grecaptcha.enterprise.execute(reCaptchaKey, {
       action: "submit",
     });
     let response = await fetch("verify.php", {
@@ -160,4 +160,27 @@ function onSubmitContact(e, fnCbSuccess = undefined, fnCbError = undefined) {
       if (fnCbError) fnCbError();
     }
   });
+}
+
+async function sendMail(
+  postData,
+  token,
+  fnCbSuccess = undefined,
+  fnCbError = undefined
+) {
+  const res = await fetch(api.sendMail, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+      Authorization: "Bearer " + token,
+    },
+    body: JSON.stringify(postData),
+  });
+  const rs = await res.json();
+  if (response.status == 200) {
+    if (fnCbSuccess) fnCbSuccess(rs.message);
+  } else {
+    if (fnCbError) fnCbError(rs.message);
+  }
 }

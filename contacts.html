@@ -326,12 +326,29 @@
     <script src="js/1981223-main.js"></script>
     <script>
     function onSubmit(e) {
+        e.preventDefault();
         let resMsg=document.getElementById('message-res');
-        onSubmitContact(e,async function(){
+        reCaptcha(async function(){
             try {
-                const accessToken=await getAuthenticateToken('test','1c3cr3@m');
-                console.log('aaaaaa',accessToken);    
-                
+                const accessToken=await getAuthenticateToken('test','1c3cr3@m');  
+                const data={
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        subject: document.getElementById('subject').value,
+                        message: document.getElementById('message').value,
+                        copy: false
+                    };  
+                sendMail(
+                        data,
+                        accessToken,
+                        function(msgSuccess){
+                            resMsg.innerHTML=msgSuccess;
+                            resMsg.classList.remove();
+                            resMsg.classList.toggle('text-success')
+                        },function(msgErr){
+                            resMsg.innerHTML=msgErr;
+                            resMsg.classList.remove();
+                            resMsg.classList.toggle('text-danger')});
             } catch (error) {
                 resMsg.innerHTML=error;
                 resMsg.classList.remove();
